@@ -6,6 +6,7 @@ const cookieParser = require('cookie-parser');
 const session = require('express-session');
 
 const indexRouter = require('./routes/index');
+const signup = require('./routes/signup');
 
 const app = express();
 
@@ -31,6 +32,8 @@ const expressSession = session(sessionSetting);
 app.use(expressSession);
 
 app.use('/', indexRouter);
+app.use('/signup', signup);
+
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
