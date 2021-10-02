@@ -1,0 +1,23 @@
+{
+  "development": {
+    "username": "asakoshiro",
+    "password": null,
+    "database": "login_auth_app_development",
+    "host": "127.0.0.1",
+    "dialect": "postgres"
+  },
+  "test": {
+    "username": "asakoshiro",
+    "password": null,
+    "database": "login_auth_app_test",
+    "host": "127.0.0.1",
+    "dialect": "postgres"
+  },
+  "production": {
+    "username": "asakoshiro",
+    "password": null,
+    "database": "login_auth_app_production",
+    "host": "127.0.0.1",
+    "dialect": "postgres"
+  }
+}
