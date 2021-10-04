@@ -4,6 +4,7 @@ const path = require('path');
 const logger = require('morgan');
 const cookieParser = require('cookie-parser');
 const session = require('express-session');
+const csurf = require('csurf');
 
 const indexRouter = require('./routes/index');
 const signup = require('./routes/signup');
@@ -40,6 +41,14 @@ app.use((req, res, next) => {
     res.locals.name = req.session.name;
     res.locals.isLoggedIn = true;
   }
+  next();
+});
+
+const csrfProtection = csurf({ cookie: false });
+app.use(csrfProtection);
+
+app.use((req, res, next) => {
+  res.locals.csrfToken = req.csrfToken();
   next();
 });
 
