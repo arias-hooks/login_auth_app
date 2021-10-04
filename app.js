@@ -7,6 +7,7 @@ const session = require('express-session');
 
 const indexRouter = require('./routes/index');
 const signup = require('./routes/signup');
+const login = require('./routes/login');
 
 const app = express();
 
@@ -31,8 +32,19 @@ const expressSession = session(sessionSetting);
 
 app.use(expressSession);
 
+app.use((req, res, next) => {
+  if (req.session.userId === undefined) {
+    res.locals.isLoggedIn = false;
+  } else {
+    res.locals.name = req.session.name;
+    res.locals.isLoggedIn = true;
+  }
+  next();
+});
+
 app.use('/', indexRouter);
 app.use('/signup', signup);
+app.use('/login', login);
 
 
 // catch 404 and forward to error handler

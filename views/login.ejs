@@ -1,0 +1,12 @@
+<%- include('./layouts/_header') %>
+
+<h1>ログイン</h1>
+<form action="/login" method="post">
+  <p>メールアドレス</p>
+  <input type="email" name="email" required>
+  <p>パスワード</p>
+  <input type="password" name="password" required>
+  <input type="submit" value="ログイン">
+</form>
+
+<%- include('./layouts/_footer') %>
