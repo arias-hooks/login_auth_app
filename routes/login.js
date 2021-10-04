@@ -3,6 +3,9 @@ const Models = require("../models");
 const bcrypt = require('bcrypt');
 
 router.get('/', (req, res, next) => {
+  if (req.session.userId) {
+    res.redirect('/');
+  }
   res.render('login');
 });
 
