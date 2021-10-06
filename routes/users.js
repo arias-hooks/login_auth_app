@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const Models = require("../models");
+const Models = require('../models');
 const nodemailer = require('nodemailer');
 const moment = require('moment');
 const bcrypt = require('bcrypt');
@@ -13,8 +13,8 @@ router.post('/resetPassword', async (req, res, next) => {
   const email = req.body.email;
   const user = await Models.User.findOne({
     where: {
-      email: email
-    }
+      email: email,
+    },
   });
 
   if (!user) {
@@ -28,7 +28,7 @@ router.post('/resetPassword', async (req, res, next) => {
 
   const testAccount = await nodemailer.createTestAccount();
   const transporter = nodemailer.createTransport({
-    host: "smtp.ethereal.email",
+    host: 'smtp.ethereal.email',
     port: 587,
     secure: false,
     auth: {
@@ -37,21 +37,22 @@ router.post('/resetPassword', async (req, res, next) => {
     },
   });
 
-  const rootUrl = 'http://localhost:3000'
+  const rootUrl = 'http://localhost:3000';
   const resetPasswordURL = `${rootUrl}/users/verification?token=${user.verificationToken}`;
 
-  transporter.sendMail({
-    from: 'from@example.com',
-    to: email,
-    subject: 'パスワード再発行メール',
-    text: "以下のURLをクリックしてパスワードを再発行してください。\n\n" + resetPasswordURL,
-  })
-    .then(info => {
-      console.log("Message sent: %s", info.messageId);
-      console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
+  transporter
+    .sendMail({
+      from: 'from@example.com',
+      to: email,
+      subject: 'パスワード再発行メール',
+      text: '以下のURLをクリックしてパスワードを再発行してください。\n\n' + resetPasswordURL,
+    })
+    .then((info) => {
+      console.log('Message sent: %s', info.messageId);
+      console.log('Preview URL: %s', nodemailer.getTestMessageUrl(info));
       res.send('パスワードリセットメールを送信しました。');
     })
-    .catch(error => {
+    .catch((error) => {
       console.log(error);
       res.redirect('/login');
     });
@@ -62,10 +63,10 @@ router.get('/verification', (req, res, next) => {
 
   Models.User.findOne({
     where: {
-      verificationToken: token
-    }
+      verificationToken: token,
+    },
   })
-    .then(user => {
+    .then((user) => {
       if (!user) {
         res.redirect('/login');
       }
@@ -74,10 +75,10 @@ router.get('/verification', (req, res, next) => {
       }
 
       return res.render('users/verification', {
-        verificationToken: token
+        verificationToken: token,
       });
     })
-    .catch(error => {
+    .catch((error) => {
       console.log(error);
       res.redirect('/login');
     });
@@ -90,8 +91,8 @@ router.post('/verify', async (req, res, next) => {
 
   const user = await Models.User.findOne({
     where: {
-      verificationToken: token
-    }
+      verificationToken: token,
+    },
   });
 
   if (!user) {

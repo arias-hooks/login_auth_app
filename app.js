@@ -28,7 +28,7 @@ const sessionSetting = {
   secret: 'login_auth_app p',
   resave: false,
   saveUninitialized: false,
-  cookie: { maxAge: 60 * 60 * 1000 }
+  cookie: { maxAge: 60 * 60 * 1000 },
 };
 
 const expressSession = session(sessionSetting);
@@ -58,7 +58,6 @@ app.use('/signup', signup);
 app.use('/login', login);
 app.use('/logout', logout);
 app.use('/users', users);
-
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
