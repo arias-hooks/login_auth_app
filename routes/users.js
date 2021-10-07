@@ -18,7 +18,7 @@ router.post('/resetPassword', async (req, res, next) => {
   });
 
   if (!user) {
-    res.redirect('/login');
+    return res.render('login', { messages: [] });
   }
 
   user.verificationToken = UUIDHelper.generateUUID();
@@ -54,7 +54,7 @@ router.post('/resetPassword', async (req, res, next) => {
     })
     .catch((error) => {
       console.log(error);
-      res.redirect('/login');
+      return res.render('login', { messages: ['エラーが発生しました'] });
     });
 });
 
@@ -68,7 +68,7 @@ router.get('/verification', (req, res, next) => {
   })
     .then((user) => {
       if (!user) {
-        res.redirect('/login');
+        return res.render('login', { messages: ['エラーが発生しました'] });
       }
       if (moment().isAfter(moment(user.verificationTokenExpiredAt), 'second')) {
         return res.render('verificationExpired');
@@ -80,7 +80,7 @@ router.get('/verification', (req, res, next) => {
     })
     .catch((error) => {
       console.log(error);
-      res.redirect('/login');
+      return res.render('login', { messages: ['エラーが発生しました'] });
     });
 });
 
@@ -96,7 +96,7 @@ router.post('/verify', async (req, res, next) => {
   });
 
   if (!user) {
-    res.redirect('/login');
+    return res.render('login', { messages: ['エラーが発生しました'] });
   }
 
   if (moment().isAfter(moment(user.verificationTokenExpiredAt), 'second')) {
@@ -114,7 +114,7 @@ router.post('/verify', async (req, res, next) => {
   await user.save();
 
   console.log('パスワード更新成功');
-  res.redirect('/login');
+  res.render('login', { messages: ['パスワードの更新に成功しました'] });
 });
 
 module.exports = router;

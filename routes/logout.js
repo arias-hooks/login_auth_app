@@ -7,7 +7,7 @@ router.get('/', function (req, res, next) {
       res.status(500);
     }
 
-    res.redirect('/login');
+    res.render('login', { messages: ['ログアウトしました'] });
   });
 });
 

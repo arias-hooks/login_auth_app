@@ -7,7 +7,7 @@ router.get('/', (req, res, next) => {
   if (req.session.userId) {
     res.redirect('/');
   }
-  res.render('signup', { errors: [] });
+  res.render('signup', { messages: [] });
 });
 
 router.post('/', async (req, res, next) => {
@@ -15,25 +15,25 @@ router.post('/', async (req, res, next) => {
   const email = req.body.email;
   const password = req.body.password;
 
-  const errors = [];
+  const messages = [];
 
   if (name === '') {
-    errors.push('ユーザー名が空です');
+    messages.push('ユーザー名が空です');
   }
   if (email === '') {
-    errors.push('メールアドレスが空です');
+    messages.push('メールアドレスが空です');
   }
   if (password === '') {
-    errors.push('パスワードが空です');
+    messages.push('パスワードが空です');
   }
 
-  if (errors.length > 0) {
-    return res.render('signup', { errors: errors });
+  if (messages.length > 0) {
+    return res.render('signup', { messages: messages });
   }
 
   if (!validator.isEmail(email)) {
-    errors.push('入力したEmailの形式が不正です');
-    return res.render('signup', { errors: errors });
+    messages.push('入力したEmailの形式が不正です');
+    return res.render('signup', { messages: messages });
   }
 
   const user = await Models.User.findOne({
@@ -43,8 +43,8 @@ router.post('/', async (req, res, next) => {
   });
 
   if (user) {
-    errors.push('ユーザー登録に失敗しました');
-    return res.render('signup', { errors: errors });
+    messages.push('ユーザー登録に失敗しました');
+    return res.render('signup', { messages: messages });
   }
 
   bcrypt.hash(password, 10, (error, hash) => {

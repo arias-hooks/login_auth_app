@@ -1,13 +1,16 @@
 <%- include('./layouts/_header') %>
 
 <h1>ログイン</h1>
+
+<%- include('./layouts/_messages') %>
+
 <form action="/login" method="post">
-  <input type="hidden" name="_csrf" value="<%= locals.csrfToken %>">
+  <input type="hidden" name="_csrf" value="<%= locals.csrfToken %>" />
   <p>メールアドレス</p>
-  <input type="email" name="email" required>
+  <input type="email" name="email" required />
   <p>パスワード</p>
-  <input type="password" name="password" required>
-  <input type="submit" value="ログイン">
+  <input type="password" name="password" required />
+  <input type="submit" value="ログイン" />
 </form>
 <p>パスワードを忘れた方は<a href="/users/resetPassword">こちら</a>から</p>
 
