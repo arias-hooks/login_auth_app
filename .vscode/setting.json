@@ -1,0 +1,12 @@
+{
+  "editor.wordWrap": "on",
+  "editor.insertSpaces": true,
+  "editor.tabSize": 2,
+  "files.trimFinalNewlines": false,
+
+  "eslint.enable": true,
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true
+  },
+  "javascript.format.enable": false
+}

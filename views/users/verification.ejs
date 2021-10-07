@@ -1,0 +1,18 @@
+<%- include('../layouts/_header') %>
+
+<h1>パスワード再設定</h1>
+<form method="POST" action="/users/verify">
+  <input id="token" type="hidden" name="_csrf" value="<%= csrfToken %>" />
+  <input
+    type="hidden"
+    name="verificationToken"
+    value="<%= verificationToken %>"
+  />
+  <p>パスワード</p>
+  <input type="password" name="password" required />
+  <p>パスワード（確認）</p>
+  <input type="password" name="passwordConfirm" required />
+  <input type="submit" value="登録する" />
+</form>
+
+<%- include('../layouts/_footer') %>

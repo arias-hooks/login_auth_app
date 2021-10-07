@@ -4,8 +4,13 @@ const path = require('path');
 const logger = require('morgan');
 const cookieParser = require('cookie-parser');
 const session = require('express-session');
+const csurf = require('csurf');
 
 const indexRouter = require('./routes/index');
+const signup = require('./routes/signup');
+const login = require('./routes/login');
+const logout = require('./routes/logout');
+const users = require('./routes/users');
 
 const app = express();
 
@@ -23,14 +28,36 @@ const sessionSetting = {
   secret: 'login_auth_app p',
   resave: false,
   saveUninitialized: false,
-  cookie: { maxAge: 60 * 60 * 1000 }
+  cookie: { maxAge: 60 * 60 * 1000 },
 };
 
 const expressSession = session(sessionSetting);
 
 app.use(expressSession);
 
+app.use((req, res, next) => {
+  if (req.session.userId === undefined) {
+    res.locals.isLoggedIn = false;
+  } else {
+    res.locals.name = req.session.name;
+    res.locals.isLoggedIn = true;
+  }
+  next();
+});
+
+const csrfProtection = csurf({ cookie: false });
+app.use(csrfProtection);
+
+app.use((req, res, next) => {
+  res.locals.csrfToken = req.csrfToken();
+  next();
+});
+
 app.use('/', indexRouter);
+app.use('/signup', signup);
+app.use('/login', login);
+app.use('/logout', logout);
+app.use('/users', users);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
