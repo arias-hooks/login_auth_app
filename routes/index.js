@@ -4,7 +4,7 @@ const router = express.Router();
 /* GET home page. */
 router.get('/', function (req, res, next) {
   if (req.session.userId === undefined) {
-    res.redirect('/login');
+    return res.render('login', { messages: ['ログインしてください'] });
   }
   res.render('index', { message: 'ログインに成功しました！' });
 });

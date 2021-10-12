@@ -6,7 +6,7 @@ router.get('/', (req, res, next) => {
   if (req.session.userId) {
     res.redirect('/');
   }
-  res.render('login');
+  res.render('login', { messages: [] });
 });
 
 router.post('/', (req, res, next) => {
@@ -16,7 +16,7 @@ router.post('/', (req, res, next) => {
     },
   }).then((user) => {
     if (!user) {
-      res.redirect('/login');
+      return res.render('login', { messages: ['メールアドレスまたはパスワードが間違っています'] });
     } else {
       const plain = req.body.password;
       const hash = user.password;
@@ -31,7 +31,7 @@ router.post('/', (req, res, next) => {
           req.session.name = user.name;
           res.redirect('/');
         } else {
-          res.redirect('/login');
+          return res.render('login', { messages: ['メールアドレスまたはパスワードが間違っています'] });
         }
       });
     }
